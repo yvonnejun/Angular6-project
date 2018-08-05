@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router'; // 导入路由模块
+import { RouterModule, Routes } from '@angular/router'; // 导入内置路由模块
 
 import { HeroesComponent } from './heroes/heroes.component';
 

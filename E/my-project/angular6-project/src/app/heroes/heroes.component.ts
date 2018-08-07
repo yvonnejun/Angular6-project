@@ -46,6 +46,7 @@ export class HeroesComponent implements OnInit {
     this.selectedHero = hero;   // 实际上的赋值
   }
   getHeroes(): void {
+    console.log(this.heroService.getHeroes());
     this.heroes = this.heroService.getHeroes(); // 这句就是得到服务中数据的关键了，把服务中返回的数据值赋给了this.heroes属性
   }
 }

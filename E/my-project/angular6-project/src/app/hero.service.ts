@@ -15,5 +15,45 @@ export class HeroService {
   constructor() { }
   getHeroes(): Hero[] {
     return HEROES;  // 返回英雄列表数据HEROES
+  };
+  getHero(id: number): Hero { // ts中带返回值的方法应该怎么写？建议：看了ts类型编译的章节发现，ts会自动识别函数和变量的类型，也就是默认情况下完全可以不用写函数或变量的类型，让它自己识别去吧(识别出来的反而是对的)
+    let item:Hero;
+    // id == element.id的元素被返回,还要考虑到调用这个方法的变量的类型设置必须保持一致，否则也报错
+    HEROES.forEach((ele, index) => {
+      // console.log(ele)
+      if (ele.id == id) {
+        item = ele;
+      }
+    })
+    return item;
+    // eturn HEROES[0] // 这是可以的，上面就是要往HEROES里面传索引值即可
   }
 }
+
+
+// 下面是加载远程数据版本
+// import { Injectable } from '@angular/core';
+ 
+// import { Observable, of } from 'rxjs';
+ 
+// import { Hero } from './hero';
+// import { HEROES } from './mock-heroes';
+// import { MessageService } from './message.service';
+ 
+// @Injectable({ providedIn: 'root' })
+// export class HeroService {
+ 
+//   constructor(private messageService: MessageService) { }
+ 
+//   getHeroes(): Observable<Hero[]> {
+//     // TODO: send the message _after_ fetching the heroes
+//     this.messageService.add('HeroService: fetched heroes');
+//     return of(HEROES);
+//   }
+ 
+//   getHero(id: number): Observable<Hero> {
+//     // TODO: send the message _after_ fetching the hero
+//     this.messageService.add(`HeroService: fetched hero id=${id}`);
+//     return of(HEROES.find(hero => hero.id === id));
+//   }
+// }

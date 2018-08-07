@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router'; // 导入内置路由模块
 
 import { HeroesComponent } from './heroes/heroes.component';
+import { DashboardComponent }   from './dashboard/dashboard.component';
+import { HeroDetailComponent }  from './hero-detail/hero-detail.component';
 
 /**
  * 
@@ -19,7 +21,10 @@ import { HeroesComponent } from './heroes/heroes.component';
    * 
    * */
 const routes: Routes = [
-  { path: 'heroes', component: HeroesComponent }
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // 默认路径配置成仪表盘界面
+  { path: 'heroes', component: HeroesComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'detail/:id', component: HeroDetailComponent },
 ];
 @NgModule({
   imports: [

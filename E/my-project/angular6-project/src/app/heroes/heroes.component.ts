@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { Hero } from '../hero';
-// import { HEROES } from '../mock-heroes'; // 导入服务模块，这个直接导入数据模块的代码就注释掉
+import { HEROES } from '../mock-heroes'; // 导入服务模块，这个直接导入数据模块的代码就注释掉
 import { HeroService } from '../hero.service'; // 导入服务模块
+
+import { HttpClient } from '@angular/common/http'; // 导入http
 
 @Component({
   selector: 'app-heroes',   // --这个组件标签<app-heroes></app-heroes>要写在app.component.html根组件里面才有效
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.css']
 })
+@Injectable()
 export class HeroesComponent implements OnInit {
   // hero = 'Windstorm';
   // hero: Hero = {
@@ -15,7 +18,7 @@ export class HeroesComponent implements OnInit {
   //   name: 'foo'
   // };
   // heroes = HEROES;
-  heroes: Hero[]; // 注意：声明一个属性heroes,并声明其数据类型为Hero[],表结构也就是数据类型的定义是冒号，而不是等号了
+  heroes: any; // 注意：声明一个属性heroes,并声明其数据类型为Hero[],表结构也就是数据类型的定义是冒号，而不是等号了
   selectedHero: Hero; // 初始化一个英雄对象的数据结构
   /**
    * 注入 HeroService
@@ -28,7 +31,7 @@ export class HeroesComponent implements OnInit {
    * 
    * 
   */
-  constructor(private heroService: HeroService) { // 这里才是依赖注入的关键，把服务注入给私有变量private heroService，在下面用this.heroService调用
+  constructor(private heroService: HeroService, private http: HttpClient) { // 这里才是依赖注入的关键，把服务注入给私有变量private heroService，在下面用this.heroService调用
 
   }
 
@@ -41,12 +44,25 @@ export class HeroesComponent implements OnInit {
   */
   ngOnInit() {
     this.getHeroes();
+    // this.http.get("/src/app/mock-heroes.ts").subscribe(function(res) { 
+    //   console.log(res) 
+    // })
   }
   onSelect(hero: Hero): void {
     this.selectedHero = hero;   // 实际上的赋值
   }
   getHeroes(): void {
-    console.log(this.heroService.getHeroes());
-    this.heroes = this.heroService.getHeroes(); // 这句就是得到服务中数据的关键了，把服务中返回的数据值赋给了this.heroes属性
+    console.log(this.heroService.getHeroItems());
+
+    // 下面的方法可以拿到通过Observable--of转换的数组数据
+    // this.heroes = this.heroService.getHeroItems().value; // 这句就是得到服务中数据的关键了，把服务中返回的数据值赋给了this.heroes属性
+   
+    // 调用http形式获取的英雄列表数据
+    this.heroService.getHeroItems().subscribe((data: Hero[]) => {
+      console.log(JSON.parse(data));
+      this.heroes = JSON.parse(data);
+      // console.log(data)
+    })
+
   }
 }

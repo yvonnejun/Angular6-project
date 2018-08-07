@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
     this.getHeroes();
   }
   getHeroes(): void {
-    this.heroes = this.heroService.getHeroes().slice(1, 5);;
+    this.heroes = this.heroService.getHeroes().slice(1, 5);
     // this.heroService.getHeroes() // 还没有请求远程数据，所以还用不到subscribe
     //   .subscribe(heroes => this.heroes = heroes.slice(1, 5));
   }
